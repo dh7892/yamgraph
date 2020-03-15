@@ -38,11 +38,22 @@ class OutputDriver:
         :return: None
         """
         ctx = cairo.Context(self.surface)
-        pat = cairo.SolidPattern(*self.background_colour)
+        ctx.set_source_rgb(*self.background_colour)
         ctx.rectangle(x, y, width, height)
-        ctx.set_source(pat)
-        ctx.fill()
+        ctx.fill_preserve()
+
+        ctx.set_source_rgb(0, 0, 0)
+        ctx.set_line_width(1)
         ctx.stroke()
+
+        # ctx = cairo.Context(self.surface)
+        ctx.select_font_face("Sans", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL)
+        ctx.set_font_size(16)
+
+        # work out how big the text will be so we can position it in the centre
+        (_, _, text_width, text_height, _, _) = ctx.text_extents(name)
+        ctx.move_to(x + width/2 - text_width/2, height/2 + text_height/2)
+        ctx.show_text(name)
 
     def output(self) -> None:
         """
