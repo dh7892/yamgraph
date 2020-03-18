@@ -9,6 +9,9 @@ from output_driver import OutputDriver
 @click.command()
 @click.argument("output_file")
 def process(output_file):
+    """
+    Handle command line arguements for main command
+    """
     print(f"Outputting to file: {output_file}")
     drawing = OutputDriver(output_file)
     drawing.draw_background("moo", 0, 0, 180, 90)
@@ -16,4 +19,5 @@ def process(output_file):
 
 
 if __name__ == "__main__":
+    # pylint: disable=no-value-for-parameter
     process()
