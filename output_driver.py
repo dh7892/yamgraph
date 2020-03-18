@@ -3,7 +3,6 @@ This module contains the the base class for an output driver.
 The idea is that we can specialise this class to provide output in different image
 formats
 """
-import cairo
 
 
 class OutputDriver:
@@ -20,13 +19,6 @@ class OutputDriver:
         self.width = width
         self.height = height
 
-        filetype = self.filename.split(".")[-1]
-        # Standard cairo setup
-        if filetype == "svg":
-            self.surface = cairo.SVGSurface(self.filename, self.width, self.height)
-        else:
-            raise ValueError(f"Don't know how to output the file {self.filename}")
-
     def draw_background(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Draw the standard background for the diagram, this is an orange box with the name of the cluster in it
@@ -37,23 +29,7 @@ class OutputDriver:
         :param height: The height of the box (pixels)
         :return: None
         """
-        ctx = cairo.Context(self.surface)
-        ctx.set_source_rgb(*self.background_colour)
-        ctx.rectangle(x, y, width, height)
-        ctx.fill_preserve()
-
-        ctx.set_source_rgb(0, 0, 0)
-        ctx.set_line_width(1)
-        ctx.stroke()
-
-        # ctx = cairo.Context(self.surface)
-        ctx.select_font_face("Sans", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL)
-        ctx.set_font_size(16)
-
-        # work out how big the text will be so we can position it in the centre
-        (_, _, text_width, text_height, _, _) = ctx.text_extents(name)
-        ctx.move_to(x + width/2 - text_width/2, height/2 + text_height/2)
-        ctx.show_text(name)
+        pass
 
     def output(self) -> None:
         """
@@ -64,4 +40,4 @@ class OutputDriver:
         :param filetype: The type of file to write (e.g. "svg")
         :return: None
         """
-        self.surface.show_page()
+        print(f"This is where we will write a file for you!")
