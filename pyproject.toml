@@ -9,6 +9,7 @@ license = "MIT"
 python = "^3.6"
 click = "^7.1.1"
 py-colour = "^1.1.0"
+pyyaml = "^5.3.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.4.1"
