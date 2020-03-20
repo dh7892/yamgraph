@@ -2,6 +2,8 @@
 """
 from yaml import load_all
 
+from output_driver import OutputDriver, BACKGROUND_COLOUR
+
 
 def read_yaml(data):
     """Read the yml data (stream) and return a generator of yaml data
@@ -12,3 +14,21 @@ def read_yaml(data):
 
     parsed_data = load_all(data)
     return list(parsed_data)
+
+def draw_deployments(data):
+    """Find "deployments" in the data and draw them
+    
+    Args:
+        data (List of dictionaries): the parsed yml data (list of dicts)
+    """
+
+    output_driver = OutputDriver("file")
+    # look for elements of the list that have kind==Deployment
+    deployment_names = []
+    for section in data:
+        if section["kind"] == "Deployment":
+            deployment_names.append(section["MetaData"]["Name"])
+
+    # for each deployment, draw a box with the name in it.
+    for _ in deployment_names:
+        output_driver.draw_box(1,2, 3, 4, BACKGROUND_COLOUR)

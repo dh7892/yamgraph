@@ -19,6 +19,25 @@ kind: Service
     return data
 
 @pytest.fixture
+def yml_with_deployments():
+    """Return name of each thing that has kind = Deployment and add to a list
+    """
+    # Format should come from MetaData: Name: and print a list of these names
+    data ="""---
+apiVersion: v1
+kind: Deployment
+MetaData:
+   Name: Bear
+---
+apiVersion: v1
+kind: Deployment
+MetaData:
+   Name: Goat
+
+    """
+    return data
+
+@pytest.fixture
 def empty_data():
     return ""
 
@@ -37,12 +56,22 @@ def test_empty_data(empty_data):
     """
 
 
-@mock.patch("output_driver.OutputDriver")
-def test_draw_deployments(MockOutputDriver, simple_yml_data):
-    """Test that we can draw a simple deployment
+@mock.patch("output_driver.OutputDriver.draw_box")
+def test_draw_deployments_no_deployment(MockDrawBox, simple_yml_data):
+    """Test that don't draw anything if we don't have any deployments to draw
     """
     data = yaml_parser.read_yaml(simple_yml_data)
     yaml_parser.draw_deployments(data)
 
-    # Check that we called "draw_box" once
-    assert MockOutputDriver.draw_box.called
+    # Check that we called "draw_box" no times
+    assert MockDrawBox.call_count == 0
+
+@mock.patch("output_driver.OutputDriver.draw_box")
+def test_draw_deployments(MockDrawBox, yml_with_deployments):
+    """Test that we draw two boxes for our two deployments
+    """
+    data = yaml_parser.read_yaml(yml_with_deployments)
+    yaml_parser.draw_deployments(data)
+
+    # Check that we called "draw_box" twice
+    assert MockDrawBox.call_count == 2
