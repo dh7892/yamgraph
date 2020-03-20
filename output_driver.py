@@ -26,6 +26,7 @@ class OutputDriver:
         self.filename = filename
         self.width = width
         self.height = height
+        self.buffer = "%!PS"
 
     def draw_box(self, start_x: int, start_y: int, width: int, height: int, colour: Colour):
         """Draw a box
@@ -38,7 +39,23 @@ class OutputDriver:
             colour (Colour): The colour of the background of the box
         Return: None
         """
-        pass
+        data = f"""
+newpath
+{start_x} {start_y} moveto
+{start_x + width} {start_y} lineto
+{start_x + width} {start_y + height} lineto
+{start_x} {start_y + height} lineto
+closepath
+gsave
+1 0 0 setrgbcolor
+fill
+grestore 
+
+0 setgray
+4 setlinewidth
+stroke
+"""
+        self.buffer = self.buffer + data
 
     def output(self) -> None:
         """
@@ -47,4 +64,5 @@ class OutputDriver:
         methods first, to build up an image. This is the final step to output
         the image to a file.
         """
-        print(f"This is where we will write a file for you!")
+        with open(self.filename, "w") as file:
+            file.write(self.buffer)

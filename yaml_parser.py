@@ -16,14 +16,14 @@ def read_yaml(data):
     parsed_data = load_all(data)
     return list(parsed_data)
 
-def draw_deployments(data):
+def draw_deployments(data, driver):
     """Find "deployments" in the data and draw them
     
     Args:
         data (List of dictionaries): the parsed yml data (list of dicts)
+        driver: the output driver to use
     """
 
-    output_driver = OutputDriver("file")
     # look for elements of the list that have kind==Deployment
     deployments = []
 
@@ -37,5 +37,11 @@ def draw_deployments(data):
                 
 
     # for each deployment, draw a box with the name in it.
-    for deployment in deployments:
-        deployment.draw(output_driver)
+    # Draw each box and add 10 to each used x,y coordinate- check  syntax to do this
+    spacing = 10
+    for index, deployment in enumerate(deployments):
+        deployment.x_pos = index * spacing
+        deployment.draw(driver)
+
+
+

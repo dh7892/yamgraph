@@ -6,10 +6,10 @@ import pytest
 
 from deployment import Deployment
 
-def test_create_deployment():
+@pytest.mark.parametrize("name", ["Steve", "Bob"])
+def test_create_deployment(name):
     """
     Test that we can create a deployment with the right name
     """
-    name = "Steve"
     deployment = Deployment(name)
     assert deployment.name == name

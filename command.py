@@ -3,24 +3,26 @@ This file contains the command line parsing code
 """
 import click
 
-from yaml_parser import read_yaml
+from yaml_parser import read_yaml, draw_deployments
 from output_driver import OutputDriver
 
 
+#@click.argument("input_file")
+#@click.argument("output_file")
 @click.command()
-@click.argument("input_file")
-@click.argument("output_file")
-def process(input_file, output_file):
+def process():
     """
     Handle command line arguements for main command
     """
+    input_file = "example_yml/example1.yml"
+    output_file = "test.ps"
     with open(input_file) as file:
         data = file.read()
 
-    read_yaml(data)
-    print(f"Outputting to file: {output_file}")
-    drawing = OutputDriver(output_file)
-    drawing.output()
+    parsed_data = read_yaml(data)
+    driver = OutputDriver(output_file)
+    draw_deployments(parsed_data, driver)
+    driver.output()
 
 
 if __name__ == "__main__":
