@@ -27,24 +27,24 @@ class OutputDriver:
         self.width = width
         self.height = height
 
-    def draw_box(self, x: int, y: int, width: int, height: int, colour: Colour):
+    def draw_box(self, start_x: int, start_y: int, width: int, height: int, colour: Colour):
         """Draw a box
         
         Args:
-            x (int): The x position of the left side of the box
-            y (int): The y position of the box (top or bottom TBC)
-            width (int): The width of the box 
+            start_x (int): The x position of the left side of the box
+            start_y (int): The y position of the box (top or bottom TBC)
+            width (int): The width of the box
             height (int): The height of the box
             colour (Colour): The colour of the background of the box
         Return: None
         """
         pass
 
-
     def output(self) -> None:
         """
         Write out the diagram to the filename specified.
-        NOTE: all "drawing" should already have been done by calling other methods first, to build up an image. This
-        is the final step to output the image to a file.
+        NOTE: all "drawing" should already have been done by calling other 
+        methods first, to build up an image. This is the final step to output
+        the image to a file.
         """
         print(f"This is where we will write a file for you!")
