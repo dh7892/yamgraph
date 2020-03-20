@@ -26,8 +26,13 @@ def draw_deployments(data):
     # look for elements of the list that have kind==Deployment
     deployment_names = []
     for section in data:
-        if section["kind"] == "Deployment":
-            deployment_names.append(section["MetaData"]["Name"])
+        if section.get("kind", "") == "Deployment":
+            metadata = section.get("metadata", None)
+            if metadata:
+                name = metadata.get("name", None)
+                if name:
+                    deployment_names.append(name)
+                
 
     # for each deployment, draw a box with the name in it.
     for _ in deployment_names:

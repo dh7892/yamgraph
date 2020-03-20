@@ -20,20 +20,42 @@ kind: Service
 
 @pytest.fixture
 def yml_with_deployments():
-    """Return name of each thing that has kind = Deployment and add to a list
+    """Return some yml that has two deployments: Bear and Goat
     """
     # Format should come from MetaData: Name: and print a list of these names
     data ="""---
 apiVersion: v1
 kind: Deployment
-MetaData:
-   Name: Bear
+metadata:
+   name: Bear
 ---
 apiVersion: v1
 kind: Deployment
-MetaData:
-   Name: Goat
+metadata:
+   name: Goat
 
+    """
+    return data
+
+@pytest.fixture
+def yml_with_no_metadata():
+    """Return some yml that doesn't have any "MetaData"
+    """
+    data ="""---
+apiVersion: v1
+kind: Deployment
+
+    """
+    return data
+
+@pytest.fixture
+def yml_with_no_kind():
+    """Return some yml that doesn't have any "kind"
+    """
+    data ="""---
+apiVersion: v1
+metadata:
+   name: Bear
     """
     return data
 
@@ -75,3 +97,24 @@ def test_draw_deployments(MockDrawBox, yml_with_deployments):
 
     # Check that we called "draw_box" twice
     assert MockDrawBox.call_count == 2
+
+@mock.patch("output_driver.OutputDriver.draw_box")
+def test_draw_deployments_no_kind(MockDrawBox, yml_with_no_kind):
+    """Test we get no exceptions (but also no boxes) if we don't
+    have any "kind" in our yml
+    """
+    data = yaml_parser.read_yaml(yml_with_no_kind)
+    yaml_parser.draw_deployments(data)
+
+    # Check that we didn't call draw_box
+    assert MockDrawBox.call_count == 0
+    
+@mock.patch("output_driver.OutputDriver.draw_box")
+def test_draw_no_metadata(MockDrawBox, yml_with_no_metadata):
+    """Test that we get no exceptions if we have no "MetaData" in our yml
+    """
+    data = yaml_parser.read_yaml(yml_with_no_metadata)
+    yaml_parser.draw_deployments(data)
+
+    # Check that we didn't call draw_box
+    assert MockDrawBox.call_count == 0
