@@ -3,6 +3,7 @@
 from yaml import load_all
 
 from output_driver import OutputDriver, BACKGROUND_COLOUR
+from deployment import Deployment
 
 
 def read_yaml(data):
@@ -24,16 +25,18 @@ def draw_deployments(data):
 
     output_driver = OutputDriver("file")
     # look for elements of the list that have kind==Deployment
-    deployment_names = []
+    deployments = []
+    dep = Deployment("Steve")
+
     for section in data:
         if section.get("kind", "") == "Deployment":
             metadata = section.get("metadata", None)
             if metadata:
                 name = metadata.get("name", None)
                 if name:
-                    deployment_names.append(name)
+                    deployments.append(Deployment(name))
                 
 
     # for each deployment, draw a box with the name in it.
-    for _ in deployment_names:
-        output_driver.draw_box(1,2, 3, 4, BACKGROUND_COLOUR)
+    for deployment in deployments:
+        deployment.draw(output_driver)
