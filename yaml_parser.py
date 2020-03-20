@@ -26,7 +26,6 @@ def draw_deployments(data):
     output_driver = OutputDriver("file")
     # look for elements of the list that have kind==Deployment
     deployments = []
-    dep = Deployment("Steve")
 
     for section in data:
         if section.get("kind", "") == "Deployment":
