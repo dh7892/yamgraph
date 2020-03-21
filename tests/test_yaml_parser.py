@@ -6,6 +6,7 @@ import pytest
 
 import yaml_parser
 
+
 @pytest.fixture(name="simple_yml_data")
 def simple_yml_data_fixture():
     """Return some simple yml
@@ -15,6 +16,7 @@ apiVersion: v1
 kind: Service
     """
     return data
+
 
 @pytest.fixture(name="yml_with_deployments")
 def yml_with_deployments_fixture():
@@ -35,6 +37,7 @@ metadata:
     """
     return data
 
+
 @pytest.fixture(name="yml_with_no_metadata")
 def yml_with_no_metadata_fixture():
     """Return some yml that doesn't have any "MetaData"
@@ -45,6 +48,7 @@ kind: Deployment
 
     """
     return data
+
 
 @pytest.fixture(name="yml_with_no_kind")
 def yml_with_no_kind_fixture():
@@ -57,12 +61,14 @@ metadata:
     """
     return data
 
+
 @pytest.fixture(name="empty_data")
 def empty_data_fixture():
     """
     Return an empty string
     """
     return ""
+
 
 def test_read_yaml_simple(simple_yml_data):
     """Check we can read a simple yml and get data
@@ -72,6 +78,7 @@ def test_read_yaml_simple(simple_yml_data):
     assert len(data) == 1
     assert data[0]["apiVersion"] == "v1"
     assert data[0]["kind"] == "Service"
+
 
 def test_empty_data(empty_data):
     """Test that we gracefully get an empty list of data if we feed an empty
@@ -87,6 +94,7 @@ def test_get_deployments_no_deployment(simple_yml_data):
     deployments = yaml_parser.get_deployments(data)
 
     assert not deployments
+
 
 def test_get_deployments(yml_with_deployments):
     """Test that we get two boxes for our two deployments
@@ -105,6 +113,7 @@ def test_get_deployments_no_kind(yml_with_no_kind):
     deployments = yaml_parser.get_deployments(data)
 
     assert not deployments
+
 
 def test_get_no_metadata(yml_with_no_metadata):
     """Test that we get no exceptions if we have no "MetaData" in our yml

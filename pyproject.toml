@@ -6,7 +6,7 @@ authors = ["Your Name <you@example.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.6"
+python = "^3.7"
 click = "^7.1.1"
 py-colour = "^1.1.0"
 pyyaml = "^5.3.1"
@@ -17,7 +17,29 @@ pylint = "^2.4.4"
 black = "^19.10b0"
 isort = "^4.3.21"
 pytest-coverage = "^0.0"
+pre-commit = "^2.2.0"
 
 [build-system]
 requires = ["poetry>=0.12"]
 build-backend = "poetry.masonry.api"
+
+[tool.black]
+line-length = 88
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | \.vscode
+  | \.pytest_cache
+  | \.coverage
+  | \.idea
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''

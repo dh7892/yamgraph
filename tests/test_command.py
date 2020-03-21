@@ -5,6 +5,7 @@ from click.testing import CliRunner
 
 from command import process
 
+
 def test_simple_command():
     """
     Check a really simple invokation of the main command

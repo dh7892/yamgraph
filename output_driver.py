@@ -52,7 +52,7 @@ closepath
 gsave
 {red} {blue} {green} setrgbcolor
 fill
-grestore 
+grestore
 
 0 setgray
 4 setlinewidth

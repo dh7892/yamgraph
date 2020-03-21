@@ -3,8 +3,8 @@ This file contains the command line parsing code
 """
 import click
 
-from yaml_parser import read_yaml, get_deployments
 from output_driver import OutputDriver
+from yaml_parser import get_deployments, read_yaml
 
 
 @click.command()

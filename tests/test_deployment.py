@@ -2,14 +2,15 @@
 Unit tests for Deployment class
 """
 
-import pytest
 from unittest.mock import Mock
-from colour import Colour
 
+import pytest
+from colour import Colour
 
 from deployment import Deployment
 
 BLACK = Colour("black")
+
 
 @pytest.fixture(name="simple_deployment")
 def simple_deployment_fixture():
@@ -26,6 +27,7 @@ def simple_deployment_fixture():
     deployment.colour = BLACK
     return deployment
 
+
 @pytest.mark.parametrize("name", ["Steve", "Bob"])
 def test_create_deployment(name):
     """
@@ -33,6 +35,7 @@ def test_create_deployment(name):
     """
     deployment = Deployment(name)
     assert deployment.name == name
+
 
 def test_draw(simple_deployment):
     """
