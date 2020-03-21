@@ -8,12 +8,11 @@ from colour import Colour
 
 
 from deployment import Deployment
-from output_driver import OutputDriver
 
 BLACK = Colour("black")
 
-@pytest.fixture()
-def simple_deployment():
+@pytest.fixture(name="simple_deployment")
+def simple_deployment_fixture():
     """
     This fixture will return a simple Deployment
     with width 10, height 20, x_pos 5, y_pos 15, colour black

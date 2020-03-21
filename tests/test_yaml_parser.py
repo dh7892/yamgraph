@@ -3,26 +3,25 @@ Unit tests for yaml_parser
 """
 
 import pytest
-import tempfile
 
 import yaml_parser
 
-@pytest.fixture
-def simple_yml_data():
+@pytest.fixture(name="simple_yml_data")
+def simple_yml_data_fixture():
     """Return some simple yml
     """
-    data =  """
+    data = """
 apiVersion: v1
 kind: Service
     """
     return data
 
-@pytest.fixture
-def yml_with_deployments():
+@pytest.fixture(name="yml_with_deployments")
+def yml_with_deployments_fixture():
     """Return some yml that has two deployments: Bear and Goat
     """
     # Format should come from MetaData: Name: and print a list of these names
-    data ="""---
+    data = """---
 apiVersion: v1
 kind: Deployment
 metadata:
@@ -36,30 +35,33 @@ metadata:
     """
     return data
 
-@pytest.fixture
-def yml_with_no_metadata():
+@pytest.fixture(name="yml_with_no_metadata")
+def yml_with_no_metadata_fixture():
     """Return some yml that doesn't have any "MetaData"
     """
-    data ="""---
+    data = """---
 apiVersion: v1
 kind: Deployment
 
     """
     return data
 
-@pytest.fixture
-def yml_with_no_kind():
+@pytest.fixture(name="yml_with_no_kind")
+def yml_with_no_kind_fixture():
     """Return some yml that doesn't have any "kind"
     """
-    data ="""---
+    data = """---
 apiVersion: v1
 metadata:
    name: Bear
     """
     return data
 
-@pytest.fixture
-def empty_data():
+@pytest.fixture(name="empty_data")
+def empty_data_fixture():
+    """
+    Return an empty string
+    """
     return ""
 
 def test_read_yaml_simple(simple_yml_data):
@@ -103,7 +105,7 @@ def test_get_deployments_no_kind(yml_with_no_kind):
     deployments = yaml_parser.get_deployments(data)
 
     assert not deployments
-    
+
 def test_get_no_metadata(yml_with_no_metadata):
     """Test that we get no exceptions if we have no "MetaData" in our yml
     """

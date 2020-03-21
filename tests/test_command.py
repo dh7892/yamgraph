@@ -1,7 +1,6 @@
 """
 Unit tests for the command module
 """
-import pytest
 from click.testing import CliRunner
 
 from command import process
@@ -13,5 +12,3 @@ def test_simple_command():
     result = CliRunner().invoke(process, ["example_yml/example1.yml", "output.svg"])
     # Check the command returned  succes
     assert result.exit_code == 0
-
-

@@ -16,9 +16,9 @@ class OutputDriver:
     This class can be used to do draw some simple shapes
     Each drawing operation will add the shape to a buffer.
     This will only be written to the file when output() is
-    called. The idea of this is so that we don't 
+    called. The idea of this is so that we don't
     leave a file open for a while as we're putting in each
-    shape. 
+    shape.
     """
 
     def __init__(self, filename, width=200, height=150):
@@ -28,9 +28,11 @@ class OutputDriver:
         self.height = height
         self.buffer = "%!PS"
 
-    def draw_box(self, start_x: int, start_y: int, width: int, height: int, colour: Colour):
+    def draw_box(
+        self, start_x: int, start_y: int, width: int, height: int, colour: Colour
+    ):
         """Draw a box
-        
+
         Args:
             start_x (int): The x position of the left side of the box
             start_y (int): The y position of the box (top or bottom TBC)
@@ -39,6 +41,7 @@ class OutputDriver:
             colour (Colour): The colour of the background of the box
         Return: None
         """
+        red, blue, green = colour.rgb()
         data = f"""
 newpath
 {start_x} {start_y} moveto
@@ -47,7 +50,7 @@ newpath
 {start_x} {start_y + height} lineto
 closepath
 gsave
-1 0 0 setrgbcolor
+{red} {blue} {green} setrgbcolor
 fill
 grestore 
 
@@ -60,7 +63,7 @@ stroke
     def output(self) -> None:
         """
         Write out the diagram to the filename specified.
-        NOTE: all "drawing" should already have been done by calling other 
+        NOTE: all "drawing" should already have been done by calling other
         methods first, to build up an image. This is the final step to output
         the image to a file.
         """
