@@ -134,3 +134,8 @@ dmypy.json
 
 # vscode stuff
 .vscode/
+
+# image files
+*.ps
+*.svg
+*.gif
