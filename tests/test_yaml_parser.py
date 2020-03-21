@@ -4,7 +4,6 @@ Unit tests for yaml_parser
 
 import pytest
 import tempfile
-from unittest import mock
 
 import yaml_parser
 
@@ -76,45 +75,39 @@ def test_empty_data(empty_data):
     """Test that we gracefully get an empty list of data if we feed an empty
     string to the function
     """
+    yaml_parser.read_yaml(empty_data)
 
 
-@mock.patch("output_driver.OutputDriver.draw_box")
-def test_draw_deployments_no_deployment(MockDrawBox, simple_yml_data):
-    """Test that don't draw anything if we don't have any deployments to draw
+def test_get_deployments_no_deployment(simple_yml_data):
+    """Test that don't get anything if we don't have any deployments to get
     """
     data = yaml_parser.read_yaml(simple_yml_data)
-    yaml_parser.draw_deployments(data)
+    deployments = yaml_parser.get_deployments(data)
 
-    # Check that we called "draw_box" no times
-    assert MockDrawBox.call_count == 0
+    assert not deployments
 
-@mock.patch("output_driver.OutputDriver.draw_box")
-def test_draw_deployments(MockDrawBox, yml_with_deployments):
-    """Test that we draw two boxes for our two deployments
+def test_get_deployments(yml_with_deployments):
+    """Test that we get two boxes for our two deployments
     """
     data = yaml_parser.read_yaml(yml_with_deployments)
-    yaml_parser.draw_deployments(data)
+    deployments = yaml_parser.get_deployments(data)
 
-    # Check that we called "draw_box" twice
-    assert MockDrawBox.call_count == 2
+    assert len(deployments) == 2
 
-@mock.patch("output_driver.OutputDriver.draw_box")
-def test_draw_deployments_no_kind(MockDrawBox, yml_with_no_kind):
-    """Test we get no exceptions (but also no boxes) if we don't
+
+def test_get_deployments_no_kind(yml_with_no_kind):
+    """Test we get no exceptions (but also no deployments) if we don't
     have any "kind" in our yml
     """
     data = yaml_parser.read_yaml(yml_with_no_kind)
-    yaml_parser.draw_deployments(data)
+    deployments = yaml_parser.get_deployments(data)
 
-    # Check that we didn't call draw_box
-    assert MockDrawBox.call_count == 0
+    assert not deployments
     
-@mock.patch("output_driver.OutputDriver.draw_box")
-def test_draw_no_metadata(MockDrawBox, yml_with_no_metadata):
+def test_get_no_metadata(yml_with_no_metadata):
     """Test that we get no exceptions if we have no "MetaData" in our yml
     """
     data = yaml_parser.read_yaml(yml_with_no_metadata)
-    yaml_parser.draw_deployments(data)
+    deployments = yaml_parser.get_deployments(data)
 
-    # Check that we didn't call draw_box
-    assert MockDrawBox.call_count == 0
+    assert not deployments

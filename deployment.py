@@ -1,6 +1,5 @@
 """This module contains the Deployment class
 """
-
 from output_driver import BACKGROUND_COLOUR
 
 class Deployment:

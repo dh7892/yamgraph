@@ -24,6 +24,21 @@ def draw_deployments(data, driver):
         driver: the output driver to use
     """
 
+                
+
+
+def get_deployments(data):
+    """
+    Look through the data and pull out a list of deployment objects
+    from it
+
+    Args:
+      data: the parsed yaml data (nested lists and dicts)
+    
+    Returns:
+      A list of Deployment objects
+    """
+
     # look for elements of the list that have kind==Deployment
     deployments = []
 
@@ -34,14 +49,5 @@ def draw_deployments(data, driver):
                 name = metadata.get("name", None)
                 if name:
                     deployments.append(Deployment(name))
-                
 
-    # for each deployment, draw a box with the name in it.
-    # Draw each box and add 10 to each used x,y coordinate- check  syntax to do this
-    spacing = 10
-    for index, deployment in enumerate(deployments):
-        deployment.x_pos = index * spacing
-        deployment.draw(driver)
-
-
-
+    return deployments
