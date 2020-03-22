@@ -12,7 +12,7 @@ from yaml_parser import get_deployments, read_yaml
 @click.argument("output_file")
 def process(input_file, output_file):
     """
-    Handle command line arguements for main command
+    Handle command line arguments for main command
     """
     with open(input_file) as file:
         data = file.read()
@@ -25,7 +25,7 @@ def process(input_file, output_file):
     # Draw each box and add 10 to each used x,y coordinate- check  syntax to do this
     spacing = 10
     for index, deployment in enumerate(deployments):
-        deployment.x_pos = index * spacing
+        deployment.box.x_pos = index * spacing
         deployment.draw(driver)
     driver.output()
 
