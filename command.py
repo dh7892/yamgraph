@@ -23,9 +23,10 @@ def process(input_file, output_file):
     driver = OutputDriver(output_file)
     # for each deployment, draw a box with the name in it.
     # Draw each box and add 10 to each used x,y coordinate- check  syntax to do this
-    spacing = 10
+    spacing = 200
     for index, deployment in enumerate(deployments):
-        deployment.box.x_pos = index * spacing
+        deployment.box.x_pos = (1 + index) * spacing
+        deployment.box.y_pos = 100
         deployment.draw(driver)
     driver.output()
 

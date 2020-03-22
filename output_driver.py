@@ -26,28 +26,41 @@ class OutputDriver:
         self.filename = filename
         self.width = width
         self.height = height
-        self.buffer = "%!PS"
+        self.buffer = """%!PS
+% Function to draw centred text
+/cshow { dup stringwidth pop -0.5 mul 0 rmoveto show } def
+
+% Make the background white
+newpath
+0 0 moveto
+0 500 lineto
+500 500 lineto
+500 0 lineto
+closepath
+1 1 1 setrgbcolor
+fill
+"""
 
     def draw_box(
-        self, start_x: int, start_y: int, width: int, height: int, colour: Colour
+        self, start_x: int, start_y: int, end_x: int, end_y: int, colour: Colour
     ):
         """Draw a box
 
         Args:
             start_x (int): The x position of the left side of the box
-            start_y (int): The y position of the box (top or bottom TBC)
-            width (int): The width of the box
-            height (int): The height of the box
+            start_y (int): The y position of the bottom
+            end_x (int): The x position of the right side
+            end_y (int): The y position of the top
             colour (Colour): The colour of the background of the box
         Return: None
         """
         red, blue, green = colour.rgb()
-        data = f"""
+        self.buffer += f"""
 newpath
 {start_x} {start_y} moveto
-{start_x + width} {start_y} lineto
-{start_x + width} {start_y + height} lineto
-{start_x} {start_y + height} lineto
+{start_x} {end_y} lineto
+{end_x} {end_y} lineto
+{end_x} {start_y} lineto
 closepath
 gsave
 {red} {blue} {green} setrgbcolor
@@ -55,10 +68,24 @@ fill
 grestore
 
 0 setgray
-4 setlinewidth
+2 setlinewidth
+0 0 0 setrgbcolor
 stroke
 """
-        self.buffer = self.buffer + data
+
+    def draw_text(self, text: str, x_pos, y_pos):
+        """
+        Draw the text, centred on x_pos, y_pos
+
+        Args:
+          text: The text to draw
+          x_pos; The x coordinate of the centre of the text
+          y_pos; The y coordinate of the centre of the text
+        """
+        self.buffer += f"""
+/Times-Roman findfont 24 scalefont setfont
+{x_pos} {y_pos} moveto 0 0 0 setrgbcolor ({text}) cshow
+"""
 
     def output(self) -> None:
         """

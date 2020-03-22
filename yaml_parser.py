@@ -1,6 +1,6 @@
 """This is a helper module that allows us to parse yml into objects
 """
-from yaml import load_all
+from yaml import Loader, load_all
 
 from deployment import Deployment
 
@@ -12,7 +12,7 @@ def read_yaml(data):
         data (str): A stream of data to parse (could be a string)
     """
 
-    parsed_data = load_all(data)
+    parsed_data = load_all(data, Loader=Loader)
     return list(parsed_data)
 
 

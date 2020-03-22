@@ -58,6 +58,9 @@ class Box:
         self._min_width = min_width
         self._min_height = min_height
 
+        # Option to put text at the top of the box
+        self.text_top = False
+
         # Setting the text will actually try to resize the box so we need to
         # do this last to make sure the min and max have already been set
         self.text = text
@@ -139,3 +142,6 @@ class Box:
         Draw the box using the output driver provided
         """
         driver.draw_box(self.left, self.bottom, self.right, self.top, self.colour)
+        text_y = self.top - 15 if self.text_top else self.bottom + (self.height) / 2.0
+        text_x = self.left + (self.width) / 2.0
+        driver.draw_text(self.text, text_x, text_y)
