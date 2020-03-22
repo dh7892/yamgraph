@@ -9,7 +9,7 @@ def read_yaml(data):
     """Read the yml data (stream) and return a generator of yaml data
 
     Args:
-        data (str): A stream of data to paser (could be a string)
+        data (str): A stream of data to parse (could be a string)
     """
 
     parsed_data = load_all(data)

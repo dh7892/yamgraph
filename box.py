@@ -2,6 +2,8 @@
 This module contains a Box class
 """
 
+from colour import Colour
+
 
 class Box:
     """
@@ -26,6 +28,7 @@ class Box:
         self.width = width
         self.height = height
         self.text = text
+        self.colour = Colour("black")
 
         # These settings are ratios of how far up/across our anchor point
         # is (0 => left, 0.5 => middle, 1 => right for x)
@@ -64,4 +67,4 @@ class Box:
         """
         Draw the box using the output driver provided
         """
-        pass
+        driver.draw_box(self.left, self.bottom, self.right, self.top, self.colour)
