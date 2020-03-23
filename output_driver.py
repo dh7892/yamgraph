@@ -83,7 +83,7 @@ stroke
           y_pos; The y coordinate of the centre of the text
         """
         self.buffer += f"""
-/Times-Roman findfont 24 scalefont setfont
+/Times-Roman findfont 10 scalefont setfont
 {x_pos} {y_pos} moveto 0 0 0 setrgbcolor ({text}) cshow
 """
 

@@ -47,8 +47,8 @@ class Deployment:
             x_pos,
             y_pos,
             text=self._controller_type,
-            min_height=SMALL_BOX_SIZE,
-            min_width=SMALL_BOX_SIZE * 2,
+            min_height=SMALL_BOX_SIZE * 2,
+            min_width=SMALL_BOX_SIZE * 3,
         )
         label_box.colour = COMPUTE_COLOUR
         # Anchor the label box on the right so it will sit next to the main box
